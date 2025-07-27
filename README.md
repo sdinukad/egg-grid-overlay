@@ -10,7 +10,14 @@ Stop losing track of which row you're on. Easily position your cursor to shave s
 ![screenshot](screenshot3.jpg)
 ---
 
-This tool overlays a simple, clean **10x6 grid** onto your screen. You can perfectly align this grid with your Pokemmo PC box.
+This tool overlays a simple, clean **10x6 grid** onto your screen. You can perfectly align this grid with your Pokemmo PC box. Windows only.
+
+## Quickstart Guide
+
+1.  Download and run `grid_overlay.exe` found in the releases section.
+2.  Press **Ctrl+Alt+G**. A border and title bar will appear, and the window will become solid.
+3.  Go to your PC in-game. Drag and resize the grid window until it aligns perfectly with your PC boxes.
+4.  Once aligned, press **Ctrl+Alt+G** or **ESC** to lock the grid. The borders will vanish, and the overlay will become click-through again.
 
 ## Features
 
@@ -20,15 +27,6 @@ This tool overlays a simple, clean **10x6 grid** onto your screen. You can perfe
 - **Persistent Memory:** The app saves its last position, so you only have to set it up once.
 - **Lightweight:** A single, tiny executable with minimal resource usage. It just works.
 
-## Quickstart Guide
-
-1.  Run `grid_overlay.exe`.
-2.  Press **Ctrl+Alt+G**. A border and title bar will appear, and the window will become solid.
-3.  Go to your PC in-game. Drag and resize the grid window until it aligns perfectly with your PC boxes.
-4.  Once aligned, press **Ctrl+Alt+G** or **ESC** to lock the grid. The borders will vanish, and the overlay will become click-through again.
-5.  Happy hunting!
-
-To close the application, **right-click** its icon in the system tray and select **Exit**.
 
 ## Compiling From Source
 
