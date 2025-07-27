@@ -42,8 +42,13 @@ If you want to build the project yourself, you'll need the MinGW-w64 toolchain (
     g++ grid_overlay.cpp resources.o -o grid_overlay.exe -std=c++17 -static -static-libgcc -static-libstdc++ -mwindows -municode -lcomctl32 -lgdi32 -lshell32
     ```
 
+## Credits
+Got the idea from seeing it on the twitch stream of PaulusTFT - http://twitch.tv/paulustft
+
 ## Disclaimer
 
 This is a third-party, fan-made tool and is not affiliated with the PokeMMO project or its developers. 
 It is a simple screen overlay and does not interact with the game's memory, packets, or executable in any way. 
 It complies with the fair play rules by acting as a simple visual aid, similar to putting a transparent sticker on your monitor.
+
+
