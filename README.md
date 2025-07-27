@@ -1,37 +1,50 @@
-# Windows Grid Overlay
+# Pokemmo Egg Grid Overlay
 
-A simple, lightweight, and resizable grid overlay for Windows, ideal for gaming, design work, or aligning on-screen elements. The overlay is fully click-through and can be resized and moved on the fly with a global hotkey.
+A lightweight, resizable grid overlay specifically designed to speed up the process of shiny hunting eggs in Pokemmo.
+Stop losing track of which row you're on. Stop recounting slots. Shave seconds off every cycle and save hours on your next hunt.
+
 ![screenshot](screenshot.png)
+
 ---
+
+This tool overlays a simple, clean **10x6 grid** onto your screen. You can perfectly align this grid with your Pokemmo PC box.
 
 ## Features
 
-- **Custom Grid:** A clean 10x6 grid overlay.
-- **Toggle Mode:** Switch between a locked, click-through overlay and an interactive resize mode.
-- **Global Hotkey:** Use **Ctrl+Alt+G** to enter/exit resize mode at any time.
-- **Persistent Position:** The application remembers its last size and position.
-- **Lightweight:** Minimal resource usage and a single executable file.
-- **System Tray Access:** Right-click the tray icon to exit or toggle resize mode.
+- **Perfect Fit:** The 10x6 grid is designed to align with a 2x3 selection of PC boxes.
+- **Toggle Resize Mode:** A global hotkey lets you adjust the grid's size and position on the fly.
+- **Click-Through:** When locked, the overlay is completely invisible to your mouse, allowing you to play normally.
+- **Persistent Memory:** The app saves its last position, so you only have to set it up once.
+- **Lightweight:** A single, tiny executable with minimal resource usage. It just works.
 
-## How to Use
+## Quickstart Guide
 
 1.  Run `grid_overlay.exe`.
-2.  The grid will appear on your screen. In this default mode, all mouse clicks "pass through" the grid to the windows underneath.
-3.  Press **Ctrl+Alt+G** to enter **Resize Mode**.
-4.  A border and title bar will appear. The window is now solid and can be moved and resized.
-5.  When you are done, press **Ctrl+Alt+G** or **ESC** to lock the grid. The borders will disappear, and it will become click-through again.
-6.  To close the application, right-click its icon in the system tray and select **Exit**.
+2.  Press **Ctrl+Alt+G**. A border and title bar will appear, and the window will become solid.
+3.  Go to your PC in-game. Drag and resize the grid window until it aligns perfectly with your PC boxes.
+4.  Once aligned, press **Ctrl+Alt+G** or **ESC** to lock the grid. The borders will vanish, and the overlay will become click-through again.
+5.  Happy hunting!
 
-## How to Compile
+To close the application, **right-click** its icon in the system tray and select **Exit**.
 
-To compile this project from source, you will need the MinGW-w64 toolchain with `g++` and `windres`.
+## Compiling From Source
 
-1.  **Compile the resources:**
+If you want to build the project yourself, you'll need the MinGW-w64 toolchain (`g++` and `windres`).
+
+1.  **Compile the Windows resources:**
     ```bash
     windres resources.rc -o resources.o
     ```
 
-2.  **Compile the application and link the resources:**
+2.  **Compile the C++ source and link everything:**
     ```bash
     g++ grid_overlay.cpp resources.o -o grid_overlay.exe -std=c++17 -static -static-libgcc -static-libstdc++ -mwindows -municode -lcomctl32 -lgdi32 -lshell32
     ```
+
+## Disclaimer
+
+This is a third-party, fan-made tool and is not affiliated with the PokeMMO project or its developers. It is a simple screen overlay and does not interact with the game's memory, packets, or executable in any way. It complies with the fair play rules by acting as a simple visual aid, similar to putting a transparent sticker on your monitor.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
