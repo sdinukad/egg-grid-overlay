@@ -4,7 +4,8 @@ A lightweight, resizable grid overlay specifically designed to speed up the proc
 Stop losing track of which row you're on. Easily position your cursor to shave seconds off every cycle and save hours on your next hunt.
 
 ![screenshot](screenshot.png)
-![screenshot](screenshot2.png)![screenshot](screenshot3.png)
+![screenshot](screenshot2.png)
+![screenshot](screenshot3.png)
 ---
 
 This tool overlays a simple, clean **10x6 grid** onto your screen. You can perfectly align this grid with your Pokemmo PC box.
