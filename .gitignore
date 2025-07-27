@@ -1,0 +1,13 @@
+# Compiled output
+*.exe
+*.o
+*.obj
+
+# Log files
+*.log
+
+# User-specific files
+*.user
+
+run1.cpp
+run - Copy.cpp

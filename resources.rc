@@ -1,0 +1,16 @@
+#include <windows.h>
+#include "resources.h"
+
+// Icon Resource
+IDI_APPICON ICON "grid_icon.ico"
+
+// Menu Resource for the System Tray
+IDR_TRAYMENU MENU
+BEGIN
+    POPUP "TrayMenu"
+    BEGIN
+        MENUITEM "Enter/Exit Resize Mode", ID_TRAY_RESIZE
+        MENUITEM SEPARATOR
+        MENUITEM "Exit",                ID_TRAY_EXIT
+    END
+END
