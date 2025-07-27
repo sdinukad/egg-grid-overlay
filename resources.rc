@@ -2,7 +2,7 @@
 #include "resources.h"
 
 // Icon Resource
-IDI_APPICON ICON "grid_icon.ico"
+1 ICON "grid_icon.ico"
 
 // Menu Resource for the System Tray
 IDR_TRAYMENU MENU

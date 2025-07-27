@@ -145,10 +145,10 @@ void AddTrayIcon(HWND hwnd) {
     NOTIFYICONDATA nid = {};
     nid.cbSize = sizeof(NOTIFYICONDATA);
     nid.hWnd = hwnd;
-    nid.uID = IDI_APPICON;
+    nid.uID = 1;
     nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
     nid.uCallbackMessage = WM_APP_TRAY_MSG;
-    nid.hIcon = (HICON)LoadImage(g_hInstance, MAKEINTRESOURCE(IDI_APPICON), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
+    nid.hIcon = (HICON)LoadImage(g_hInstance, MAKEINTRESOURCE(1), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
     wcscpy_s(nid.szTip, L"Grid Overlay (Ctrl+Alt+G to resize)");
 
     Shell_NotifyIcon(NIM_ADD, &nid);
@@ -166,7 +166,7 @@ void RemoveTrayIcon(HWND hwnd) {
     NOTIFYICONDATA nid = {};
     nid.cbSize = sizeof(NOTIFYICONDATA);
     nid.hWnd = hwnd;
-    nid.uID = IDI_APPICON;
+    nid.uID = 1;
     Shell_NotifyIcon(NIM_DELETE, &nid);
 }
 
@@ -291,7 +291,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     wc.lpfnWndProc = WindowProc;
     wc.hInstance = hInstance;
     wc.lpszClassName = CLASS_NAME;
-    wc.hIcon = (HICON)LoadImage(hInstance, MAKEINTRESOURCE(IDI_APPICON), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
+    wc.hIcon = (HICON)LoadImage(hInstance, MAKEINTRESOURCE(1), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
     RegisterClassEx(&wc);
 
     // Create the main window.
