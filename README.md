@@ -14,7 +14,7 @@ This tool overlays a simple, clean **10x6 grid** onto your screen. You can perfe
 
 ## Quickstart Guide
 
-1.  Download and run `grid_overlay.exe` found in the releases section.
+1.  Download and run `grid_overlay.exe` found in the [releases](https://github.com/sdinukad/egg-grid-overlay/releases/tag/v1.0) section.
 2.  Press **Ctrl+Alt+G**. A border and title bar will appear, and the window will become solid.
 3.  Go to your PC in-game. Drag and resize the grid window until it aligns perfectly with your PC boxes.
 4.  Once aligned, press **Ctrl+Alt+G** or **ESC** to lock the grid. The borders will vanish, and the overlay will become click-through again.
