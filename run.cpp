@@ -10,6 +10,7 @@
 
 #include <windows.h>
 #include <shellapi.h>
+#include <wchar.h>
 #include "resources.h"
 
 //--------------------------------------------------------------------------------------
@@ -45,7 +46,7 @@ void LoadSettings();
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 /**
- * @brief Renders the grid lines onto the specified device context.
+ * @brief Renders the grid lines and column numbers onto the specified device context.
  * @param hdc The device context to draw on.
  */
 void DrawGrid(HDC hdc) {
@@ -62,6 +63,7 @@ void DrawGrid(HDC hdc) {
     const float cellWidth = (float)width / g_cols;
     const float cellHeight = (float)height / g_rows;
 
+    // --- Grid Line Drawing ---
     HPEN hPen = CreatePen(PS_SOLID, 1, RGB(138, 43, 226));
     HPEN hOldPen = (HPEN)SelectObject(hdc, hPen);
 
@@ -79,29 +81,53 @@ void DrawGrid(HDC hdc) {
 
     SelectObject(hdc, hOldPen);
     DeleteObject(hPen);
+
+
+    // --- <<< NEW: Number Drawing Logic >>> ---
+
+    // 1. Create a font for the numbers. The size is proportional to the cell height.
+    int fontHeight = (int)(cellHeight * 0.6);
+    HFONT hFont = CreateFont(fontHeight, 0, 0, 0, FW_BOLD, FALSE, FALSE, FALSE,
+                             DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS,
+                             DEFAULT_QUALITY, DEFAULT_PITCH | FF_SWISS, L"Arial");
+    HFONT hOldFont = (HFONT)SelectObject(hdc, hFont);
+
+    // 2. Set text color to a semi-transparent light gray and make the background transparent.
+    SetTextColor(hdc, RGB(192, 192, 192));
+    SetBkMode(hdc, TRANSPARENT);
+
+    // 3. Draw numbers 1 through 10 in the top row of cells.
+    wchar_t numberStr[4];
+    for (int i = 0; i < g_cols; ++i) {
+        swprintf(numberStr, 4, L"%d", i + 1);
+
+        RECT cellRect;
+        cellRect.left = (int)(i * cellWidth);
+        cellRect.top = 0;
+        cellRect.right = (int)((i + 1) * cellWidth);
+        cellRect.bottom = (int)cellHeight;
+
+        DrawText(hdc, numberStr, -1, &cellRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    }
+
+    // 4. Clean up GDI objects.
+    SelectObject(hdc, hOldFont);
+    DeleteObject(hFont);
 }
+
 
 /**
  * @brief Switches the window to an interactive, non-click-through resize mode.
- *
- * This function makes the window solid and clickable by switching its transparency
- * mode from color-keying to alpha blending. It also displays standard window
- * borders and a title bar for easy manipulation.
- * @param hwnd Handle to the main window.
  */
 void EnterResizeMode(HWND hwnd) {
     g_isResizeMode = true;
 
-    // Switch to alpha blending to make the window solid and interactive.
-    // 254 is nearly opaque, ensuring all mouse events are captured.
     SetLayeredWindowAttributes(hwnd, 0, 254, LWA_ALPHA);
 
-    // Remove the click-through style and add standard window decorations.
     SetWindowLongPtr(hwnd, GWL_EXSTYLE, WS_EX_LAYERED | WS_EX_TOPMOST);
     SetWindowLongPtr(hwnd, GWL_STYLE, WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_SIZEBOX);
     SetWindowText(hwnd, L"Resize Mode (Press Ctrl+Alt+G or ESC to lock)");
 
-    // Force the window to repaint and update its frame styles.
     SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
     SetForegroundWindow(hwnd);
     InvalidateRect(hwnd, NULL, TRUE);
@@ -109,26 +135,17 @@ void EnterResizeMode(HWND hwnd) {
 
 /**
  * @brief Switches the window back to a transparent, click-through overlay mode.
- *
- * This function restores the click-through capability by switching the transparency
- * mode back to color-keying. It removes the window borders and saves the new
- * size and position.
- * @param hwnd Handle to the main window.
  */
 void ExitResizeMode(HWND hwnd) {
     g_isResizeMode = false;
     GetWindowRect(hwnd, &g_windowRect);
 
-    // Switch back to color-key transparency to make the background invisible
-    // and restore click-through behavior for the empty areas.
     SetLayeredWindowAttributes(hwnd, TRANSPARENT_COLOR, 0, LWA_COLORKEY);
 
-    // Re-apply the click-through style and remove window decorations.
     SetWindowLongPtr(hwnd, GWL_EXSTYLE, WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOPMOST);
     SetWindowLongPtr(hwnd, GWL_STYLE, WS_POPUP | WS_VISIBLE);
     SetWindowText(hwnd, APP_TITLE);
     
-    // Apply the new window position and force the frame to update.
     SetWindowPos(hwnd, HWND_TOPMOST,
                  g_windowRect.left, g_windowRect.top,
                  g_windowRect.right - g_windowRect.left, g_windowRect.bottom - g_windowRect.top,
@@ -139,7 +156,6 @@ void ExitResizeMode(HWND hwnd) {
 
 /**
  * @brief Adds an icon to the system tray.
- * @param hwnd Handle to the window that will receive tray icon notifications.
  */
 void AddTrayIcon(HWND hwnd) {
     NOTIFYICONDATA nid = {};
@@ -153,14 +169,12 @@ void AddTrayIcon(HWND hwnd) {
 
     Shell_NotifyIcon(NIM_ADD, &nid);
 
-    // Set the icon version to receive modern, reliable mouse messages.
     nid.uVersion = NOTIFYICON_VERSION_4;
     Shell_NotifyIcon(NIM_SETVERSION, &nid);
 }
 
 /**
  * @brief Removes the icon from the system tray.
- * @param hwnd Handle to the window associated with the tray icon.
  */
 void RemoveTrayIcon(HWND hwnd) {
     NOTIFYICONDATA nid = {};
@@ -225,9 +239,6 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hwnd, &ps);
 
-            // Set the background color based on the current mode.
-            // In resize mode, the background is a standard system color.
-            // In overlay mode, it's the transparent color key.
             COLORREF bgColor = g_isResizeMode ? GetSysColor(COLOR_3DFACE) : TRANSPARENT_COLOR;
             HBRUSH bgBrush = CreateSolidBrush(bgColor);
             FillRect(hdc, &ps.rcPaint, bgBrush);
