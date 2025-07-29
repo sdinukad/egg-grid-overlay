@@ -4,9 +4,9 @@ A lightweight, resizable grid overlay specifically designed to speed up the proc
 
 Stop losing track of which row you're on. Place a persistent marker over the "Breed" button. Shave seconds off every cycle and save hours on your next hunt.
 
-![screenshot](screenshot.png)
-![screenshot](screenshot2.png)
-![screenshot](screenshot3.jpg)
+![screenshot](https://i.gyazo.com/a808b21631b04827ae772c6bf7fec86b.png)
+![screenshot](https://i.gyazo.com/ec26527051d5b654d700df06ace455e7.png)
+![screenshot](https://i.gyazo.com/387f7765f6d306fbab26d32854cb09f0.png)
 ---
 
 This tool overlays a simple, clean **10x6 grid** onto your screen that you can perfectly align with your Pokemmo PC box. It is for **Windows only**.
